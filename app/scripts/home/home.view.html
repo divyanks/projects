@@ -1,0 +1,15 @@
+﻿<h1>Hi {{vm.user.firstName}}!</h1>
+<p>You're logged in!!</p>
+<h3>All registered users:</h3>
+<div class="container" style="height:100%;">
+	<div style="height:20%;">
+    <li ng-repeat="user in vm.allUsers">
+        {{user.username}} ({{user.firstName}} {{user.lastName}})
+        - <a href="#" ng-click="vm.deleteUser(user.id)">Delete</a>
+    </li>
+    </div>
+    <div style="height:80%;">
+    <table id="Activity" class="display" width="100%"></table>
+    </div>
+</div>
+

@@ -1,35 +1,51 @@
-'use strict';
+(function () {
+    'use strict';
 
-/**
- * @ngdoc overview
- * @name projectsApp
- * @description
- * # projectsApp
- *
- * Main module of the application.
- */
-angular
-  .module('projectsApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch'
-  ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+    var projectsApp = angular.module('projectsApp', ['ngRoute', 'ngCookies']);
+        /*.config(config)
+        .run(run);*/
+
+    
+    projectsApp.config(function ($routeProvider, $locationProvider) {
+        $routeProvider
+            .when('/',
+             {
+                controller: 'HomeController',
+                templateUrl: 'scripts/home/home.view.html',
+                controllerAs: 'vm',
+                resolve: {
+                          'serviceNowService':function(serviceNowService){
+                            return serviceNowService.recordPromise;
+                          }
+                        }
+            })
+            .when('/login', {
+                controller: 'LoginController',
+                templateUrl: 'scripts/login/login.view.html',
+                controllerAs: 'vm'
+            })
+            .when('/register', {
+                controller: 'RegisterController',
+                templateUrl: 'scripts/register/register.view.html',
+                controllerAs: 'vm'
+            })
+
+            .otherwise({ redirectTo: '/login' });
+    }).run(function ($rootScope, $location, $cookieStore, $http) {
+        // keep user logged in after page refresh
+        $rootScope.globals = $cookieStore.get('globals') || {};
+        if ($rootScope.globals.currentUser) {
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; // jshint ignore:line
+        }
+
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            // redirect to login page if not logged in and trying to access a restricted page
+            var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+            var loggedIn = $rootScope.globals.currentUser;
+            if (restrictedPage && !loggedIn) {
+                $location.path('/login');
+            }
+        });
+    });
+
+})();

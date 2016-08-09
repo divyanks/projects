@@ -1,0 +1,42 @@
+'use strict';
+
+/**
+ * @ngdoc overview
+ * @name projectsApp
+ * @description
+ * # projectsApp
+ *
+ * Main module of the application.
+ */
+angular
+  .module('projectsApp', [
+    'ngAnimate',
+    'ngCookies',
+    'ngResource',
+    'ngRoute',
+    'ngSanitize',
+    'ngTouch'
+  ])
+  .config(function ($routeProvider) {
+    $routeProvider      
+            .when('/', {
+                controller: 'HomeController',
+                templateUrl: 'home/home.view.html',
+                controllerAs: 'vm'
+            })
+
+            .when('/login', {
+                controller: 'LoginController',
+                templateUrl: 'login/login.view.html',
+                controllerAs: 'vm'
+            })
+
+            .when('/register', {
+                controller: 'RegisterController',
+                templateUrl: 'register/register.view.html',
+                controllerAs: 'vm'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+  });

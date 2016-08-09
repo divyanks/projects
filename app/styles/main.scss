@@ -12,6 +12,7 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 body {
   padding: 0;
+  
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -20,6 +21,7 @@ body {
 .footer {
   padding-left: 15px;
   padding-right: 15px;
+
 }
 
 /* Custom page header */
@@ -38,9 +40,12 @@ body {
 
 /* Custom page footer */
 .footer {
-  padding-top: 19px;
+
   color: #777;
   border-top: 1px solid #e5e5e5;
+  line-height: 40px;
+  padding-bottom: 19px;
+  
 }
 
 .container-narrow > hr {
@@ -68,7 +73,7 @@ body {
 }
 
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+@media screen and (max-width: 768px) {
   .container {
     max-width: 730px;
   }
@@ -88,4 +93,11 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+}
+.content {
+    height:90%;
+    
+}
+.record {
+  text-align:center
 }
